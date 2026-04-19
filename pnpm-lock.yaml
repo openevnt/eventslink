@@ -24,11 +24,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(vite@8.0.8(@types/node@25.6.0))
       '@evnt/convert':
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.0.4
+        version: 0.0.4
       '@evnt/pretty':
-        specifier: ^0.0.1
-        version: 0.0.1(zod@4.3.6)
+        specifier: ^0.0.2
+        version: 0.0.2(zod@4.3.6)
       '@evnt/schema':
         specifier: ^0.0.8
         version: 0.0.8(zod@4.3.6)
@@ -128,11 +128,11 @@ packages:
   '@emnapi/wasi-threads@1.2.1':
     resolution: {integrity: sha512-uTII7OYF+/Mes/MrcIOYp5yOtSMLBWSIoLPpcgwipoiKbli6k322tcoFsxoIIxPDqW01SQGAgko4EzZi2BNv2w==}
 
-  '@evnt/builder@0.0.1':
-    resolution: {integrity: sha512-PT8hzYCoVEsXmb+3AOirbyAkF8PCgDvykKHbpHP22yo3Q464cX8dtXJDXYxxBxuZd3EoUlBlgh1VcUcPFMVwTg==}
+  '@evnt/builder@0.0.2':
+    resolution: {integrity: sha512-TOUs3YE5/sRs27MUQKeEp/EU/wRf5tjcqpsti5KIZWCfaExLnHDryNvQ7OQRVTcTymIdkTqzLwm2GMn37M3xRg==}
 
-  '@evnt/convert@0.0.3':
-    resolution: {integrity: sha512-a4T0n4xSLZybZntH4d+9FIoGUz7DG6BiZ9hDxRhxSBatUdLEW/Dso1nj92kJf6HgDGqvaUT/rDhlQLh4Y2B2Zg==}
+  '@evnt/convert@0.0.4':
+    resolution: {integrity: sha512-7DiaZM3XXXpkJg9YuiqF9DQvwFZg/Y7QnSfLZeX3H4HkJoruiLeoJRLPoCHnJhcBM6+rF3OHLphIJPRWi2hx/A==}
 
   '@evnt/partial-date@0.0.1':
     resolution: {integrity: sha512-5u/bv4CnTMw4w4WI8uTNSYyUbCAzEuD1M29E0gIBRPp0N8eWh4TPdHmNLsj/2nHDGpLyR4qmFEm5M/kW6mOl9g==}
@@ -140,13 +140,8 @@ packages:
   '@evnt/partial-date@0.0.2':
     resolution: {integrity: sha512-ywt4l7XVlfXp/CIwXBnlxU9A82gvNBNOk34SkgfrMBnm2W5DNgpboP3ziG3joy3m10Wl5ELzN3qypQ5z72Ez2Q==}
 
-  '@evnt/pretty@0.0.1':
-    resolution: {integrity: sha512-hQYA20U3AFmqVEfvmvy+QZu4Eej1Otr+qXwyPfW/BRQ/0kHO6hU0lKVT3sqgciINL3LRrdUh2qfsvTnrDLdhbg==}
-
-  '@evnt/schema@0.0.7':
-    resolution: {integrity: sha512-GjEA0t9UH39jMmZdr8Oz74hznA+O1AzpUw3s01pYkK9osSeQ/jQQwJTlQsG9CQn6wVIspoTmlrxF/BP44i1/6g==}
-    peerDependencies:
-      zod: ^4
+  '@evnt/pretty@0.0.2':
+    resolution: {integrity: sha512-9TeBZKO0OghyrPXQv+Q8o3au1HKG957y6BxJB8QljpbNxi2q3s9cZWlGZQZQb2cjpHtj8UMsP7BWBDcn+x8SnQ==}
 
   '@evnt/schema@0.0.8':
     resolution: {integrity: sha512-AhshClBL/DAbBpi7HI3Z7Q83amzYcJJAubeXPz4W0y3OZejZ5qWq9azj0UFYt/lKi9LKMZWE2uQpD6/98it8yA==}
@@ -874,15 +869,15 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@evnt/builder@0.0.1(zod@4.3.6)':
+  '@evnt/builder@0.0.2(zod@4.3.6)':
     dependencies:
-      '@evnt/schema': 0.0.7(zod@4.3.6)
+      '@evnt/schema': 0.0.8(zod@4.3.6)
     transitivePeerDependencies:
       - zod
 
-  '@evnt/convert@0.0.3':
+  '@evnt/convert@0.0.4':
     dependencies:
-      '@evnt/builder': 0.0.1(zod@4.3.6)
+      '@evnt/builder': 0.0.2(zod@4.3.6)
       '@evnt/partial-date': 0.0.2
       '@evnt/schema': 0.0.8(zod@4.3.6)
       '@evnt/translations': 0.0.2
@@ -898,19 +893,13 @@ snapshots:
 
   '@evnt/partial-date@0.0.2': {}
 
-  '@evnt/pretty@0.0.1(zod@4.3.6)':
+  '@evnt/pretty@0.0.2(zod@4.3.6)':
     dependencies:
-      '@evnt/partial-date': 0.0.1
-      '@evnt/schema': 0.0.7(zod@4.3.6)
-      '@evnt/translations': 0.0.1
+      '@evnt/partial-date': 0.0.2
+      '@evnt/schema': 0.0.8(zod@4.3.6)
+      '@evnt/translations': 0.0.2
     transitivePeerDependencies:
       - zod
-
-  '@evnt/schema@0.0.7(zod@4.3.6)':
-    dependencies:
-      '@evnt/partial-date': 0.0.1
-      '@evnt/translations': 0.0.1
-      zod: 4.3.6
 
   '@evnt/schema@0.0.8(zod@4.3.6)':
     dependencies:
