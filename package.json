@@ -16,7 +16,7 @@
 		"@deniz-blue/vite-plugins": "^1.0.1",
 		"@evnt/convert": "^0.0.4",
 		"@evnt/pretty": "^0.0.2",
-		"@evnt/schema": "^0.0.8",
+		"@evnt/schema": "^0.0.9",
 		"@evnt/translations": "^0.0.2",
 		"@mantine/core": "^9.0.2",
 		"@mantine/hooks": "^9.0.2",

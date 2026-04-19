@@ -30,8 +30,8 @@ importers:
         specifier: ^0.0.2
         version: 0.0.2(zod@4.3.6)
       '@evnt/schema':
-        specifier: ^0.0.8
-        version: 0.0.8(zod@4.3.6)
+        specifier: ^0.0.9
+        version: 0.0.9(zod@4.3.6)
       '@evnt/translations':
         specifier: ^0.0.2
         version: 0.0.2
@@ -145,6 +145,11 @@ packages:
 
   '@evnt/schema@0.0.8':
     resolution: {integrity: sha512-AhshClBL/DAbBpi7HI3Z7Q83amzYcJJAubeXPz4W0y3OZejZ5qWq9azj0UFYt/lKi9LKMZWE2uQpD6/98it8yA==}
+    peerDependencies:
+      zod: ^4
+
+  '@evnt/schema@0.0.9':
+    resolution: {integrity: sha512-8Hr18elTwOyBKm05ak+rc6dTfTOwbapjn+2dqdhgMOYx78Fs7J+0xXbFOzKfKBM6QhSnTQP4j8JNV//FYVhOTg==}
     peerDependencies:
       zod: ^4
 
@@ -905,6 +910,12 @@ snapshots:
     dependencies:
       '@evnt/partial-date': 0.0.1
       '@evnt/translations': 0.0.1
+      zod: 4.3.6
+
+  '@evnt/schema@0.0.9(zod@4.3.6)':
+    dependencies:
+      '@evnt/partial-date': 0.0.2
+      '@evnt/translations': 0.0.2
       zod: 4.3.6
 
   '@evnt/translations@0.0.1': {}
