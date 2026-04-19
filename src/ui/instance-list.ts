@@ -1,6 +1,6 @@
 import { useIntent } from "./ui-stores";
 import { parseResourceUri } from "@atcute/lexicons";
-import { instances } from "virtual:instances";
+import { applications } from "virtual:applications";
 import type { Intent } from "../../lib/intent";
 
 export interface Redirectable {
@@ -31,10 +31,10 @@ export const getRedirectablesForIntent = (intent: Intent | null): Redirectable[]
 		"aturi-rkey": rkey || "",
 	};
 
-	return instances.instances.filter(instance => {
-		if (!intent && instance.capabilities.includes("home")) return true;
+	return applications.applications.filter(application => {
+		if (!intent && application.capabilities.includes("home")) return true;
 
-		return instance.capabilities.some(cap => {
+		return application.capabilities.some(cap => {
 			const [type, ...rest] = cap.split(":");
 			const args = rest.join(":");
 
@@ -52,12 +52,12 @@ export const getRedirectablesForIntent = (intent: Intent | null): Redirectable[]
 
 			return false;
 		});
-	}).map(instance => ({
-		title: instance.name || new URL(instance.url).host,
-		label: new URL(instance.url).host,
-		url: ((intent ? instance.redirectTo : false) || instance.url).replace(/{([^}]+)}/g, (_, key: string) => replaceMap[key] || ""),
-		faviconUrl: instance.faviconUrl ?? `${instance.url.replace(/\/$/, "")}/favicon.ico`,
-		faviconRadius: instance.faviconRadius,
+	}).map(application => ({
+		title: application.name || new URL(application.url).host,
+		label: new URL(application.url).host,
+		url: ((intent ? application.redirectTo : false) || application.url).replace(/{([^}]+)}/g, (_, key: string) => replaceMap[key] || ""),
+		faviconUrl: application.faviconUrl ?? `${application.url.replace(/\/$/, "")}/favicon.ico`,
+		faviconRadius: application.faviconRadius,
 	}));
 };
 

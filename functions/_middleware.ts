@@ -1,10 +1,13 @@
 /// <reference types="@cloudflare/workers-types" />
 
-import { type EventData, type SplashMediaComponent, type Translations } from "@evnt/schema";
-import { snippetToMarkdown } from "@evnt/pretty/markdown";
+import { type EventData, type SplashMediaComponent } from "@evnt/schema";
+import { MarkdownSnippets, EventUtil } from "@evnt/pretty";
+import { TranslationsUtil } from "@evnt/translations";
 import { snippetEvent } from "@evnt/pretty";
+import { convertToSchemaOrg } from "@evnt/convert/schema-org";
 import { fetchEventData } from "../lib/resolve-data";
 import { parseIntent } from "../lib/intent";
+import "temporal-polyfill-lite/global";
 
 interface Env { }
 
@@ -19,44 +22,66 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
 		if (intent?.type == "event") data = await fetchEventData(intent);
 	} catch (err) {
 		console.error("Error fetching event data:", err);
+		return response;
 	}
 
-	const t = (translations: Translations): string =>
-		translations["en"] || translations[Object.keys(translations)[0]] || "";
+	if (!data) return response;
 
-	let title = t(data?.name ?? {}) ?? null;
+	const isDiscord = ctx.request.headers.get("User-Agent")?.includes("Discordbot") ?? false;
 
-	let markdown = data ? snippetEvent(data).map(snip => snippetToMarkdown(snip)).join("\n") : "";
+	const eventMajorTimezone = EventUtil.majorityTimezone(data);
 
-	let splashMediaComponents = data?.components
+	const language = url.searchParams.get("language") ?? url.searchParams.get("lang") ?? "en";
+	const timezone = url.searchParams.get("timezone") ?? url.searchParams.get("tz") ?? eventMajorTimezone ?? "UTC";
+
+	const md = new MarkdownSnippets();
+	md.language = language;
+	md.timezone = timezone;
+	if (isDiscord) md.flavor = "discord";
+
+	let title = TranslationsUtil.translate(data.name ?? {}, [language]) ?? "Event";
+
+	let markdown = snippetEvent(data, {
+		maxGroups: 10,
+		maxInstances: 5,
+		maxVenues: 5,
+	}).map(snip => md.snippet(snip)).join("\n");
+
+	markdown += "\n\n" + md.subtext(`TZ: ${timezone}`);
+
+	let splashMediaComponents = data.components
 		?.filter((c): c is SplashMediaComponent => c.$type === "directory.evnt.component.splashMedia")
+
 	let selected = splashMediaComponents?.find(c => c.roles.includes("ogembed"))
 		?? splashMediaComponents?.find(c => c.roles.includes("embed"))
 		?? splashMediaComponents?.find(c => c.roles.includes("poster"))
 		?? splashMediaComponents?.[0];
+
 	let image = selected?.media.sources[0];
+
+	let jsonld = convertToSchemaOrg(data, { language, timezone });
 
 	return new HTMLRewriter()
 		.on('head', {
 			element(element) {
-				if (data) {
-					element.append(`<meta property="twitter:card" content="summary"/>`, { html: true });
-					element.append(`<meta property="twitter:site" content="eventsl.ink"/>`, { html: true });
-					element.append(`<meta property="og:title" content="${title!}" />`, { html: true });
-					if (markdown) element.append(`<meta property="og:description" content="${markdown.slice(0, 400)}" />`, { html: true });
-					if (image?.url) {
-						element.append(`<meta property="og:image" content="${image.url}" />`, { html: true });
-						element.append(`<meta property="twitter:image" content="${image.url}" />`, { html: true });
-						if (t(selected?.media.alt ?? {}))
-							element.append(`<meta property="og:image:alt" content="${t(selected?.media.alt ?? {})}" />`, { html: true });
-						if (image.mimeType)
-							element.append(`<meta property="og:image:type" content="${image.mimeType}" />`, { html: true });
-						if (image.dimensions) {
-							element.append(`<meta property="og:image:width" content="${image.dimensions.width}" />`, { html: true });
-							element.append(`<meta property="og:image:height" content="${image.dimensions.height}" />`, { html: true });
-						}
+				element.append(`<meta property="twitter:card" content="summary"/>`, { html: true });
+				element.append(`<meta property="twitter:site" content="eventsl.ink"/>`, { html: true });
+				element.append(`<meta property="application-name" content="eventsl.ink" />`, { html: true });
+				element.append(`<meta property="og:title" content="${title!}" />`, { html: true });
+				element.append(`<meta property="og:description" content="${markdown}" />`, { html: true });
+				if (image?.url) {
+					element.append(`<meta property="og:image" content="${image.url}" />`, { html: true });
+					element.append(`<meta property="twitter:image" content="${image.url}" />`, { html: true });
+					if (TranslationsUtil.translate(selected?.media.alt ?? {}, [language]))
+						element.append(`<meta property="og:image:alt" content="${TranslationsUtil.translate(selected?.media.alt ?? {}, [language])}" />`, { html: true });
+					if (image.mimeType)
+						element.append(`<meta property="og:image:type" content="${image.mimeType}" />`, { html: true });
+					if (image.dimensions) {
+						element.append(`<meta property="og:image:width" content="${image.dimensions.width}" />`, { html: true });
+						element.append(`<meta property="og:image:height" content="${image.dimensions.height}" />`, { html: true });
 					}
 				}
+				element.append(`<script type="application/ld+json">${JSON.stringify(jsonld)}</script>`, { html: true });
 			},
 		})
 		.transform(response);

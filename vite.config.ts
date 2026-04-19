@@ -7,10 +7,10 @@ export default defineConfig({
 	plugins: [
 		react(),
 		VirtualModule(
-			"instances",
+			"applications",
 			() => {
-				const json = JSON.parse(readFileSync("../../data/instances.json", "utf-8"));
-				return `export const instances = ${JSON.stringify(json)};`;
+				const json = JSON.parse(readFileSync("./data/applications.json", "utf-8"));
+				return `export const applications = ${JSON.stringify(json)};`;
 			},
 		),
 	],

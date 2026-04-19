@@ -122,7 +122,7 @@ export const HomePage = () => {
 				<Input.Label>Or select an app to visit:</Input.Label>
 				<Stack>
 					{redirectables.map((redirectable) => (
-						<InstanceCard key={redirectable.url} info={redirectable} />
+						<ApplicationCard key={redirectable.url} info={redirectable} />
 					))}
 				</Stack>
 			</Stack>
@@ -151,7 +151,7 @@ export const RedirectPage = () => {
 			<Stack gap={0} w="100%">
 				<Stack w="100%">
 					{redirectables.map((redirectable) => (
-						<InstanceCard key={redirectable.url} info={redirectable} />
+						<ApplicationCard key={redirectable.url} info={redirectable} />
 					))}
 				</Stack>
 			</Stack>
@@ -200,7 +200,7 @@ export const RedirectPage = () => {
 	);
 };
 
-export const InstanceCard = ({
+export const ApplicationCard = ({
 	info,
 }: {
 	info: Redirectable;
