@@ -8,9 +8,7 @@ export type EventIntent = {
 export type Intent = EventIntent;
 
 export const parseIntent = (url: URL): Intent | null => {
-	if (
-		(url.pathname === "/event" || url.pathname === "/e")
-	) {
+	if (url.pathname === "/event" || url.pathname === "/e") {
 		let intent: EventIntent = {
 			type: "event",
 		};
@@ -24,12 +22,10 @@ export const parseIntent = (url: URL): Intent | null => {
 		if (data) intent.data = data;
 
 		return intent;
-	};
+	}
 
 	// Legacy format
-	if (
-		url.searchParams.get("action") === "view-event"
-	) {
+	if (url.searchParams.get("action") === "view-event") {
 		let intent: EventIntent = {
 			type: "event",
 		};
@@ -39,7 +35,7 @@ export const parseIntent = (url: URL): Intent | null => {
 		else if (source?.startsWith("http")) intent.url = source;
 
 		return intent;
-	};
+	}
 
 	return null;
 };

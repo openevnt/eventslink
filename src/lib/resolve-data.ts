@@ -1,16 +1,24 @@
-import { CompositeDidDocumentResolver, CompositeHandleResolver, DohJsonHandleResolver, LocalActorResolver, PlcDidDocumentResolver, WebDidDocumentResolver, WellKnownHandleResolver } from "@atcute/identity-resolver";
-import type { EventIntent } from "./intent";
+import {
+	CompositeDidDocumentResolver,
+	CompositeHandleResolver,
+	DohJsonHandleResolver,
+	LocalActorResolver,
+	PlcDidDocumentResolver,
+	WebDidDocumentResolver,
+	WellKnownHandleResolver,
+} from "@atcute/identity-resolver";
 import { Client, simpleFetchHandler } from "@atcute/client";
 import { type ParsedResourceUri, parseResourceUri } from "@atcute/lexicons";
-import { type EventData, EventDataSchema } from "@evnt/schema";
-import { convertFromLexicon } from "@evnt/convert/community-lexicon";
-import type { } from "@atcute/atproto";
+import { communityLexicon } from "@evnt/convert/community-lexicon";
+import { OpenEvntSchema } from "@evnt/schema";
+import type { OpenEvnt } from "@evnt/types";
+import type {} from "@atcute/atproto";
 import type { AtprotoDid } from "@atcute/lexicons/syntax";
 
 const actorResolver = new LocalActorResolver({
 	handleResolver: new CompositeHandleResolver({
 		methods: {
-			dns: new DohJsonHandleResolver({ dohUrl: 'https://mozilla.cloudflare-dns.com/dns-query' }),
+			dns: new DohJsonHandleResolver({ dohUrl: "https://mozilla.cloudflare-dns.com/dns-query" }),
 			http: new WellKnownHandleResolver(),
 		},
 	}),
@@ -22,7 +30,9 @@ const actorResolver = new LocalActorResolver({
 	}),
 });
 
-export const fetchATProtoRecord = async (aturi: ParsedResourceUri): Promise<Record<string, unknown> | null> => {
+export const fetchATProtoRecord = async (
+	aturi: ParsedResourceUri,
+): Promise<Record<string, unknown> | null> => {
 	if (!aturi.collection || !aturi.rkey) return null;
 	const { pds } = await actorResolver.resolve(aturi.repo);
 
@@ -42,23 +52,23 @@ export const fetchATProtoRecord = async (aturi: ParsedResourceUri): Promise<Reco
 
 	if (!res.ok) throw new Error(`Failed to fetch record: ${JSON.stringify(res)}`);
 
-	return res.data.value;
+	return res.data.value as Record<string, unknown>;
 };
 
-export const fetchEventData = async (intent: EventIntent): Promise<EventData | null> => {
+export const fetchEventData = async (intent: {
+	at?: string;
+	url?: string;
+	data?: string;
+}): Promise<OpenEvnt | null> => {
 	if (intent.at) {
 		const parsed = parseResourceUri(intent.at);
-		if (!parsed.ok) return null;
-		const record = await fetchATProtoRecord(parsed.value);
+		const record = await fetchATProtoRecord(parsed);
 		if (!record) return null;
-		if (record.$type === "community.lexicon.calendar.event") {
-			return convertFromLexicon(record as any, { did: parsed.value.repo as AtprotoDid });
-		} else return EventDataSchema.parse(record);
+		return communityLexicon.from!(JSON.stringify(record), { did: parsed.repo as AtprotoDid });
 	} else if (intent.url) {
 		const res = await fetch(intent.url);
 		if (!res.ok) return null;
 		const json = await res.json();
-		return EventDataSchema.parse(json);
+		return OpenEvntSchema.parse(json);
 	} else return null;
 };
-

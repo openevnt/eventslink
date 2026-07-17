@@ -1,5 +1,5 @@
 import { createTheme, DEFAULT_THEME, MantineProvider } from "@mantine/core";
-import { Page } from "./ui/Page";
+import { Page } from "./components/Page";
 import { createRoot } from "react-dom/client";
 
 const theme = createTheme({
@@ -16,5 +16,5 @@ export const App = () => {
 };
 
 export const render = () => {
-	createRoot(document.getElementById('root')!).render(<App />);
+	createRoot(document.getElementById("root")!).render(<App />);
 };

@@ -33,6 +33,3 @@ Examples:
 
 - https://eventsl.ink/e?at=at://did:plc:example/community.lexicon.calendar.event/3kxyz
 - https://eventsl.ink/event?url=https%3A%2F%2Fdeniz.blue%2Fevents-data%2Fevents%2F2026%2Ffoss%2Ffosdem26.json
-
-
-
