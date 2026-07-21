@@ -32,4 +32,10 @@ Search parameters for event links:
 Examples:
 
 - https://eventsl.ink/e?at=at://did:plc:example/community.lexicon.calendar.event/3kxyz
-- https://eventsl.ink/event?url=https%3A%2F%2Fdeniz.blue%2Fevents-data%2Fevents%2F2026%2Ffoss%2Ffosdem26.json
+- https://eventsl.ink/event?url=https://deniz.blue/events-data/events/2026/foss/fosdem26.json
+
+## Applications
+
+If you have an application or a website that can handle event links, you can make a pull request to add it to the list of applications in `data/applications.json`.
+
+If you have an Android application you can also add it to the `assetlinks.json` file.

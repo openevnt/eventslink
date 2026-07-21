@@ -17,8 +17,7 @@
 			"capabilities": ["home", "event:at?collection=community.lexicon.calendar.event"]
 		},
 		{
-			"name": "Vantage",
-			"description": "Reference implementation",
+			"name": "Vantage (Web)",
 			"url": "https://vantage.deniz.blue",
 			"redirectTo": "https://vantage.deniz.blue/?{intent}",
 			"capabilities": [
@@ -41,6 +40,18 @@
 			"url": "https://pds.ls",
 			"redirectTo": "https://pds.ls/{aturi}",
 			"capabilities": ["event:at"]
+		},
+		{
+			"name": "Vantage (App)",
+			"url": "https://vantage.tsx.lt",
+			"redirectTo": "https://vantage.tsx.lt/?{intent}",
+			"capabilities": [
+				"home",
+				"event:at?collection=directory.evnt.event",
+				"event:at?collection=blue.deniz.event",
+				"event:at?collection=community.lexicon.calendar.event",
+				"event:https"
+			]
 		}
 	]
 }
