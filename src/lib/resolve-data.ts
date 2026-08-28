@@ -58,7 +58,6 @@ export const fetchATProtoRecord = async (
 export const fetchEventData = async (intent: {
 	at?: string;
 	url?: string;
-	data?: string;
 }): Promise<OpenEvnt | null> => {
 	if (intent.at) {
 		const parsed = parseResourceUri(intent.at);

@@ -1,6 +1,6 @@
 import { parseResourceUri } from "@atcute/lexicons";
-import { applications } from "virtual:applications";
-import type { Intent } from "@lib/intent";
+import applications from "../../data/applications.json" with { type: "json" };
+import type { Intent } from "../lib/intent.ts";
 
 export interface Redirectable {
 	url?: string;

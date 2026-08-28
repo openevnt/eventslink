@@ -27,7 +27,12 @@ Search parameters for event links:
 - One of the following:
   - `at`: an AT Protocol event record URI
   - `url`: an HTTP URL pointing to a JSON event payload
-  - `data`: inline JSON event data
+
+Optional, affecting how the event summary and metadata are rendered:
+
+- `language` (or `lang`): a BCP 47 tag, defaulting to the request's `Accept-Language`
+- `timezone` (or `tz`): an IANA zone, defaulting to the most common zone across the
+  event's instances, then UTC
 
 Examples:
 
@@ -39,3 +44,16 @@ Examples:
 If you have an application or a website that can handle event links, you can make a pull request to add it to the list of applications in `data/applications.json`.
 
 If you have an Android application you can also add it to the `assetlinks.json` file.
+
+## Development
+
+The site is a Cloudflare Worker that renders HTML on the server; visitors receive
+no JavaScript bundle. Static files under `public/` are served by the assets
+binding.
+
+```sh
+pnpm install
+pnpm dev
+```
+
+`pnpm typecheck` runs `tsc`, and `pnpm deploy` publishes with wrangler.

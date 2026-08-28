@@ -1,0 +1,266 @@
+:root {
+	color-scheme: light dark;
+
+	--page: oklch(98.7% 0.002 197.1);
+	--text: oklch(21.8% 0.008 223.9);
+	--muted: oklch(45% 0.017 213.2);
+	--faint: oklch(92.5% 0.005 214.3);
+	--accent: oklch(52% 0.14 240);
+	--danger: oklch(57.7% 0.245 27.325);
+	--on-accent: #ffffff;
+
+	--font:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji";
+	--mono: ui-monospace, Menlo, Monaco, Consolas, monospace;
+	--measure: 40rem;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--page: oklch(21.8% 0.008 223.9);
+		--text: oklch(96.3% 0.002 197.1);
+		--muted: oklch(72.3% 0.014 214.4);
+		--faint: oklch(30% 0.012 218);
+		--accent: oklch(78% 0.11 240);
+		--danger: oklch(70.4% 0.191 22.216);
+		--on-accent: oklch(21.8% 0.008 223.9);
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--page);
+	color: var(--text);
+	font: 16px/1.6 var(--font);
+	-webkit-font-smoothing: antialiased;
+}
+
+p,
+h1,
+h2 {
+	margin: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: var(--faint);
+	text-underline-offset: 3px;
+}
+
+a:hover {
+	text-decoration-color: currentColor;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.nav__inner,
+.main,
+.footer__inner {
+	max-width: var(--measure);
+	margin: 0 auto;
+	padding: 0 1.25rem;
+}
+
+.nav__inner {
+	padding-top: 1.75rem;
+	font-size: 0.875rem;
+}
+
+.nav__brand {
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.main {
+	padding-top: 2.5rem;
+	padding-bottom: 4rem;
+}
+
+.footer__inner {
+	padding-bottom: 3rem;
+	color: var(--muted);
+	font-size: 0.8125rem;
+}
+
+.intro {
+	margin-bottom: 2rem;
+	color: var(--muted);
+	font-size: 1rem;
+	font-weight: 400;
+}
+
+.section-title {
+	margin: 3rem 0 1.25rem;
+	font-size: 1.0625rem;
+	font-weight: 600;
+}
+
+.note {
+	margin-top: 1.25rem;
+	color: var(--muted);
+	font-size: 0.875rem;
+}
+
+.panel > label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.field-row {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.field-row input {
+	flex: 1;
+	min-width: 0;
+}
+
+input {
+	width: 100%;
+	padding: 0.5rem 0.875rem;
+	border: 1px solid var(--faint);
+	border-radius: 999px;
+	background: transparent;
+	color: var(--text);
+	font: 0.875rem var(--mono);
+}
+
+input::placeholder {
+	color: var(--muted);
+}
+
+input:focus {
+	border-color: var(--text);
+}
+
+input:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.field-error {
+	margin-top: 0.5rem;
+	color: var(--danger);
+	font-size: 0.875rem;
+}
+
+button,
+.button {
+	display: inline-block;
+	padding: 0.5rem 1.125rem;
+	border: none;
+	border-radius: 999px;
+	background: var(--accent);
+	color: var(--on-accent);
+	font: 600 0.875rem var(--font);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+button:hover,
+.button:hover {
+	opacity: 0.85;
+}
+
+.button--quiet {
+	background: transparent;
+	color: var(--text);
+	box-shadow: inset 0 0 0 1px var(--faint);
+}
+
+.button-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+}
+
+.share-result {
+	margin-top: 2rem;
+}
+
+.card-list {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.instance-card {
+	display: flex;
+	align-items: center;
+	gap: 0.875rem;
+	color: inherit;
+	text-decoration: none;
+}
+
+.instance-card__icon {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+	border-radius: 4px;
+	flex: none;
+}
+
+.instance-card__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.instance-card__title {
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.instance-card:hover .instance-card__title {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.instance-card__label {
+	color: var(--muted);
+	font: 0.8125rem var(--mono);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.event__banner {
+	display: block;
+	width: 100%;
+	height: 9rem;
+	object-fit: cover;
+	border-radius: 4px;
+	margin-bottom: 1.5rem;
+}
+
+.event__name {
+	font-size: 1.75rem;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+}
+
+.event__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 1.25rem;
+	margin-top: 0.75rem;
+	color: var(--muted);
+}
+
+.empty {
+	color: var(--muted);
+}

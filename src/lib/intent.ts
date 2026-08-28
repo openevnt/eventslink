@@ -2,7 +2,6 @@ export type EventIntent = {
 	type: "event";
 	url?: string;
 	at?: string;
-	data?: string;
 };
 
 export type Intent = EventIntent;
@@ -15,11 +14,9 @@ export const parseIntent = (url: URL): Intent | null => {
 
 		const urlParam = url.searchParams.get("url");
 		const at = url.searchParams.get("at");
-		const data = url.searchParams.get("data");
 
 		if (urlParam) intent.url = urlParam;
 		if (at) intent.at = at;
-		if (data) intent.data = data;
 
 		return intent;
 	}
